@@ -1,0 +1,7 @@
+flowchart LR
+    App["Application"] --> Contracts["Dreamine.Secs.Abstractions"]
+    Contracts --> Secs["SECS-II typed model"]
+    Contracts --> Hsms["HSMS model + options"]
+    Contracts --> Diagnostics["Diagnostic contract"]
+    Contracts --> Communication["Dreamine.Communication.Abstractions"]
+    Provider["Registered provider"] -. implements .-> Contracts

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Dreamine.Secs.Abstractions</AssemblyName>
+    <RootNamespace>Dreamine.Secs.Abstractions</RootNamespace>
+
+    <PackageId>Dreamine.Secs.Abstractions</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Dreamine Core Team</Authors>
+    <Company>Dreamine</Company>
+    <Description>Shared contracts and provider boundaries for Dreamine SECS communication.</Description>
+    <PackageTags>dreamine;secs;abstractions;communication;contracts;providers</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/CodeMaru-Dreamine/Dreamine.Secs.Abstractions</RepositoryUrl>
+    <Title>Dreamine.Secs.Abstractions</Title>
+    <Copyright>© 2026 Dreamine Core Team. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/CodeMaru-Dreamine/Dreamine.Secs.Abstractions</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Communication.Abstractions\Dreamine.Communication.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
