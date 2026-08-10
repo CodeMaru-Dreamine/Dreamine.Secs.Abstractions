@@ -60,6 +60,8 @@ public sealed class HsmsSessionOptions
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(Host);
         if (Port is <= 0 or > 65535) throw new ArgumentOutOfRangeException(nameof(Port));
+        if (!Enum.IsDefined(Mode)) throw new ArgumentOutOfRangeException(nameof(Mode));
+        if (!Enum.IsDefined(Role)) throw new ArgumentOutOfRangeException(nameof(Role));
         if (MaximumFrameLength < 10 || MaximumFrameLength > int.MaxValue - 4) throw new ArgumentOutOfRangeException(nameof(MaximumFrameLength));
         if (AutoReconnect && Mode != SecsConnectionMode.Active) throw new ArgumentException("Automatic T5 reconnect is available only in Active mode.", nameof(AutoReconnect));
         ArgumentNullException.ThrowIfNull(Timers);
