@@ -37,9 +37,19 @@ public sealed class SecsDiagnosticEvent
     /// <summary>\if KO 진단 이벤트를 만듭니다. \endif \if EN Creates a diagnostic event. \endif</summary>
     /// <param name="kind">\if KO 종류입니다. \endif \if EN Kind. \endif</param><param name="message">\if KO 요약입니다. \endif \if EN Summary. \endif</param><param name="state">\if KO 선택적 상태입니다. \endif \if EN Optional state. \endif</param><param name="frameLength">\if KO 선택적 프레임 길이입니다. \endif \if EN Optional frame length. \endif</param>
     public SecsDiagnosticEvent(SecsDiagnosticKind kind, string message, HsmsConnectionState? state = null, int? frameLength = null)
+        : this(kind, message, state, frameLength, null) { }
+
+    /// <summary>\if KO 사용 가능한 HSMS 헤더 문맥을 포함하여 진단 이벤트를 만듭니다. \endif \if EN Creates a diagnostic event with available HSMS header context. \endif</summary>
+    /// <param name="kind">\if KO 종류입니다. \endif \if EN Kind. \endif</param><param name="message">\if KO 요약입니다. \endif \if EN Summary. \endif</param><param name="state">\if KO 선택적 상태입니다. \endif \if EN Optional state. \endif</param><param name="frameLength">\if KO 선택적 프레임 길이입니다. \endif \if EN Optional frame length. \endif</param><param name="hsmsHeader">\if KO 완전한 헤더를 읽은 경우의 선택적 문맥입니다. \endif \if EN Optional context when a complete header was read. \endif</param>
+    public SecsDiagnosticEvent(
+        SecsDiagnosticKind kind,
+        string message,
+        HsmsConnectionState? state,
+        int? frameLength,
+        HsmsHeader? hsmsHeader)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(message);
-        Kind = kind; Message = message; State = state; FrameLength = frameLength;
+        Kind = kind; Message = message; State = state; FrameLength = frameLength; HsmsHeader = hsmsHeader;
     }
     /// <summary>\if KO 종류입니다. \endif \if EN Gets the kind. \endif</summary>
     public SecsDiagnosticKind Kind { get; }
@@ -49,6 +59,8 @@ public sealed class SecsDiagnosticEvent
     public HsmsConnectionState? State { get; }
     /// <summary>\if KO 관련 프레임 길이입니다. \endif \if EN Gets the related frame length. \endif</summary>
     public int? FrameLength { get; }
+    /// <summary>\if KO 오류 전에 완전히 읽은 HSMS 헤더 문맥입니다. \endif \if EN Gets the complete HSMS header context read before the error. \endif</summary>
+    public HsmsHeader? HsmsHeader { get; }
 }
 
 /// <summary>\if KO <para>특정 로깅 구현과 분리된 진단 수신 계약입니다.</para> \endif \if EN <para>Defines a diagnostic sink decoupled from a logging implementation.</para> \endif</summary>

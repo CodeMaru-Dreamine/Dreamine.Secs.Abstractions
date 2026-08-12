@@ -1,3 +1,5 @@
+using Dreamine.Secs.Abstractions.Hsms;
+
 namespace Dreamine.Secs.Abstractions.Validation;
 
 /// <summary>\if KO <para>프로토콜 검증 오류 종류입니다.</para> \endif \if EN <para>Identifies a protocol validation error.</para> \endif</summary>
@@ -74,7 +76,16 @@ public sealed class SecsDecodeException : SecsProtocolException
 {
     /// <summary>\if KO 디코딩 예외를 만듭니다. \endif \if EN Creates a decoding exception. \endif</summary>
     /// <param name="code">\if KO 오류 코드입니다. \endif \if EN Error code. \endif</param><param name="message">\if KO 메시지입니다. \endif \if EN Message. \endif</param><param name="offset">\if KO 오프셋입니다. \endif \if EN Offset. \endif</param>
-    public SecsDecodeException(SecsValidationCode code, string message, int? offset = null) : base(code, message, offset) { }
+    public SecsDecodeException(SecsValidationCode code, string message, int? offset = null)
+        : this(code, message, offset, null) { }
+
+    /// <summary>\if KO 사용 가능한 HSMS 헤더 문맥을 포함하여 디코딩 예외를 만듭니다. \endif \if EN Creates a decoding exception with available HSMS header context. \endif</summary>
+    /// <param name="code">\if KO 오류 코드입니다. \endif \if EN Error code. \endif</param><param name="message">\if KO 메시지입니다. \endif \if EN Message. \endif</param><param name="offset">\if KO 오프셋입니다. \endif \if EN Offset. \endif</param><param name="hsmsHeader">\if KO 완전한 헤더를 읽은 경우의 선택적 문맥입니다. \endif \if EN Optional context when a complete header was read. \endif</param>
+    public SecsDecodeException(SecsValidationCode code, string message, int? offset, HsmsHeader? hsmsHeader)
+        : base(code, message, offset) => HsmsHeader = hsmsHeader;
+
+    /// <summary>\if KO 오류 전에 완전히 읽은 HSMS 헤더 문맥입니다. \endif \if EN Gets the complete HSMS header context read before the error. \endif</summary>
+    public HsmsHeader? HsmsHeader { get; }
 }
 
 /// <summary>\if KO <para>트랜잭션 제한 시간 만료를 나타냅니다.</para> \endif \if EN <para>Indicates transaction timeout expiration.</para> \endif</summary>

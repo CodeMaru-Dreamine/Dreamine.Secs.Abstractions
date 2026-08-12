@@ -4,7 +4,7 @@ Assembly: `Dreamine.Secs.Abstractions`
 
 This inventory is generated from the compiled Release assembly. It is an audit artifact, not an additional compatibility promise.
 
-Exported types: **52**
+Exported types: **66**
 
 ## Types
 
@@ -22,7 +22,9 @@ Exported types: **52**
 
 - `Dreamine.Secs.Abstractions.Diagnostics.SecsDiagnosticKind Kind { get; }`
 - `SecsDiagnosticEvent(Dreamine.Secs.Abstractions.Diagnostics.SecsDiagnosticKind kind, System.String message, System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsConnectionState> state, System.Nullable<System.Int32> frameLength)`
+- `SecsDiagnosticEvent(Dreamine.Secs.Abstractions.Diagnostics.SecsDiagnosticKind kind, System.String message, System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsConnectionState> state, System.Nullable<System.Int32> frameLength, System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsHeader> hsmsHeader)`
 - `System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsConnectionState> State { get; }`
+- `System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsHeader> HsmsHeader { get; }`
 - `System.Nullable<System.Int32> FrameLength { get; }`
 - `System.String Message { get; }`
 
@@ -77,6 +79,8 @@ Exported types: **52**
 
 ### `public struct Dreamine.Secs.Abstractions.Hsms.HsmsHeader`
 
+- `Dreamine.Secs.Abstractions.Hsms.HsmsHeader CreateControl(Dreamine.Secs.Abstractions.Hsms.HsmsSType sType, Dreamine.Secs.Abstractions.Model.SecsSystemBytes systemBytes, System.Byte headerByte2, System.Byte headerByte3, System.UInt16 sessionId)`
+- `Dreamine.Secs.Abstractions.Hsms.HsmsHeader CreateData(Dreamine.Secs.Abstractions.Model.SecsMessage message)`
 - `Dreamine.Secs.Abstractions.Model.SecsSystemBytes SystemBytes { get; }`
 - `HsmsHeader(System.UInt16 sessionId, System.Byte headerByte2, System.Byte headerByte3, System.Byte pType, System.Byte sType, Dreamine.Secs.Abstractions.Model.SecsSystemBytes systemBytes)`
 - `System.Boolean Equals(Dreamine.Secs.Abstractions.Hsms.HsmsHeader other)`
@@ -92,8 +96,6 @@ Exported types: **52**
 - `System.Int32 GetHashCode()`
 - `System.String ToString()`
 - `System.UInt16 SessionId { get; }`
-- `static Dreamine.Secs.Abstractions.Hsms.HsmsHeader CreateControl(Dreamine.Secs.Abstractions.Hsms.HsmsSType sType, Dreamine.Secs.Abstractions.Model.SecsSystemBytes systemBytes, System.Byte headerByte2, System.Byte headerByte3, System.UInt16 sessionId)`
-- `static Dreamine.Secs.Abstractions.Hsms.HsmsHeader CreateData(Dreamine.Secs.Abstractions.Model.SecsMessage message)`
 
 ### `public abstract class Dreamine.Secs.Abstractions.Hsms.HsmsMessage`
 
@@ -130,11 +132,16 @@ Exported types: **52**
 - `Dreamine.Secs.Abstractions.Enums.SecsConnectionMode Mode { get; set; }`
 - `Dreamine.Secs.Abstractions.Enums.SecsRole Role { get; set; }`
 - `Dreamine.Secs.Abstractions.Hsms.HsmsTimerOptions Timers { get; set; }`
+- `Dreamine.Secs.Abstractions.Hsms.HsmsWireObservationOptions WireObservation { get; set; }`
 - `Dreamine.Secs.Abstractions.Model.SecsSessionId SessionId { get; set; }`
+- `Dreamine.Secs.Abstractions.Options.SecsPrimaryDispatcherOptions PrimaryDispatcher { get; set; }`
 - `HsmsSessionOptions()`
 - `System.Boolean AutoReconnect { get; set; }`
 - `System.Int32 MaximumFrameLength { get; set; }`
+- `System.Int32 MaximumListItemCount { get; set; }`
+- `System.Int32 MaximumNestingDepth { get; set; }`
 - `System.Int32 Port { get; set; }`
+- `System.Nullable<System.Int32> MaximumMessageLength { get; set; }`
 - `System.String Host { get; set; }`
 - `System.Void Validate()`
 
@@ -156,6 +163,65 @@ Exported types: **52**
 - `System.TimeSpan T8 { get; set; }`
 - `System.Void Validate()`
 
+### `public enum Dreamine.Secs.Abstractions.Hsms.HsmsWireCaptureMode`
+
+- `const Dreamine.Secs.Abstractions.Hsms.HsmsWireCaptureMode Excluded = 0`
+- `const Dreamine.Secs.Abstractions.Hsms.HsmsWireCaptureMode FullFrame = 2`
+- `const Dreamine.Secs.Abstractions.Hsms.HsmsWireCaptureMode HeaderOnly = 1`
+
+### `public sealed class Dreamine.Secs.Abstractions.Hsms.HsmsWireCaptureRule`
+
+- `Dreamine.Secs.Abstractions.Hsms.HsmsWireCaptureMode Mode { get; }`
+- `HsmsWireCaptureRule(System.Byte stream, System.Byte function, System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsWireDirection> direction, Dreamine.Secs.Abstractions.Hsms.HsmsWireCaptureMode mode, System.Int32 maximumCapturedBytes)`
+- `System.Byte Function { get; }`
+- `System.Byte Stream { get; }`
+- `System.Int32 MaximumCapturedBytes { get; }`
+- `System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsWireDirection> Direction { get; }`
+
+### `public enum Dreamine.Secs.Abstractions.Hsms.HsmsWireDirection`
+
+- `const Dreamine.Secs.Abstractions.Hsms.HsmsWireDirection Inbound = 0`
+- `const Dreamine.Secs.Abstractions.Hsms.HsmsWireDirection Outbound = 1`
+
+### `public sealed class Dreamine.Secs.Abstractions.Hsms.HsmsWireObservation`
+
+- `Dreamine.Secs.Abstractions.Hsms.HsmsWireDirection Direction { get; }`
+- `HsmsWireObservation(System.Int64 sequenceNumber, System.Int64 connectionEpoch, System.DateTimeOffset observedAtUtc, Dreamine.Secs.Abstractions.Hsms.HsmsWireDirection direction, System.Int32 actualByteCount, System.Int32 declaredFrameLength, System.ReadOnlyMemory<System.Byte> capturedBytes)`
+- `HsmsWireObservation(System.Int64 sequenceNumber, System.Int64 connectionEpoch, System.DateTimeOffset observedAtUtc, Dreamine.Secs.Abstractions.Hsms.HsmsWireDirection direction, System.Int32 actualByteCount, System.Int32 declaredFrameLength, System.ReadOnlyMemory<System.Byte> capturedBytes, System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsHeader> header)`
+- `System.Boolean IsCaptureTruncated { get; }`
+- `System.DateTimeOffset ObservedAtUtc { get; }`
+- `System.Int32 ActualByteCount { get; }`
+- `System.Int32 DeclaredFrameLength { get; }`
+- `System.Int64 ConnectionEpoch { get; }`
+- `System.Int64 SequenceNumber { get; }`
+- `System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsHeader> Header { get; }`
+- `System.ReadOnlyMemory<System.Byte> CapturedBytes { get; }`
+
+### `public sealed class Dreamine.Secs.Abstractions.Hsms.HsmsWireObservationOptions`
+
+- `Dreamine.Secs.Abstractions.Hsms.HsmsWireCaptureMode DefaultCaptureMode { get; set; }`
+- `HsmsWireObservationOptions()`
+- `System.Collections.Generic.IReadOnlyList<Dreamine.Secs.Abstractions.Hsms.HsmsWireCaptureRule> CaptureRules { get; set; }`
+- `System.Int32 MaximumCapturedBytes { get; set; }`
+- `System.Int32 QueueCapacity { get; set; }`
+- `System.Void Validate()`
+- `const System.Int64 MaximumRetainedPayloadBytes = 67108864`
+
+### `public interface Dreamine.Secs.Abstractions.Hsms.IHsmsWireObservationSource`
+
+- `System.Boolean IsWireObservationEnabled { get; }`
+- `System.Collections.Generic.IAsyncEnumerable<Dreamine.Secs.Abstractions.Hsms.HsmsWireObservation> ReadWireObservationsAsync(System.Threading.CancellationToken cancellationToken)`
+- `System.Int64 DroppedWireObservationCount { get; }`
+
+### `public sealed class Dreamine.Secs.Abstractions.Hsms.SecsSessionStateChangedEventArgs`
+
+- `Dreamine.Communication.Abstractions.Enums.ConnectionState CurrentConnectionState { get; }`
+- `Dreamine.Communication.Abstractions.Enums.ConnectionState PreviousConnectionState { get; }`
+- `Dreamine.Secs.Abstractions.Hsms.HsmsConnectionState CurrentHsmsState { get; }`
+- `Dreamine.Secs.Abstractions.Hsms.HsmsConnectionState PreviousHsmsState { get; }`
+- `Dreamine.Secs.Abstractions.Model.SecsConnectionIdentity ConnectionIdentity { get; }`
+- `SecsSessionStateChangedEventArgs(Dreamine.Communication.Abstractions.Enums.ConnectionState previousConnectionState, Dreamine.Communication.Abstractions.Enums.ConnectionState currentConnectionState, Dreamine.Secs.Abstractions.Hsms.HsmsConnectionState previousHsmsState, Dreamine.Secs.Abstractions.Hsms.HsmsConnectionState currentHsmsState, Dreamine.Secs.Abstractions.Model.SecsConnectionIdentity connectionIdentity)`
+
 ### `public interface Dreamine.Secs.Abstractions.Interfaces.ISecsCommunicationProvider`
 
 - `Dreamine.Secs.Abstractions.Interfaces.ISecsConnection CreateConnection(Dreamine.Secs.Abstractions.Options.SecsConnectionOptions options)`
@@ -164,6 +230,41 @@ Exported types: **52**
 ### `public interface Dreamine.Secs.Abstractions.Interfaces.ISecsConnection`
 
 - `System.String ProviderKey { get; }`
+
+### `public interface Dreamine.Secs.Abstractions.Interfaces.ISecsMessageSession`
+
+- `Dreamine.Secs.Abstractions.Hsms.HsmsConnectionState HsmsState { get; }`
+- `Dreamine.Secs.Abstractions.Interfaces.ISecsPrimaryDispatcher PrimaryDispatcher { get; }`
+- `Dreamine.Secs.Abstractions.Model.SecsConnectionIdentity ConnectionIdentity { get; }`
+- `Dreamine.Secs.Abstractions.Model.SecsSystemBytes AllocateSystemBytes()`
+- `System.Threading.Tasks.Task DeselectAsync(System.Threading.CancellationToken cancellationToken)`
+- `System.Threading.Tasks.Task LinktestAsync(System.Threading.CancellationToken cancellationToken)`
+- `System.Threading.Tasks.Task SelectAsync(System.Threading.CancellationToken cancellationToken)`
+- `System.Threading.Tasks.Task SendAsync(Dreamine.Secs.Abstractions.Model.SecsMessage message, System.Threading.CancellationToken cancellationToken)`
+- `System.Threading.Tasks.Task SendAsync(Dreamine.Secs.Abstractions.Model.SecsStream stream, Dreamine.Secs.Abstractions.Model.SecsFunction function, Dreamine.Secs.Abstractions.Model.SecsItem item, System.Threading.CancellationToken cancellationToken)`
+- `System.Threading.Tasks.Task SeparateAsync(System.Threading.CancellationToken cancellationToken)`
+- `System.Threading.Tasks.Task<Dreamine.Secs.Abstractions.Model.SecsMessage> RequestAsync(Dreamine.Secs.Abstractions.Model.SecsDialogueDefinition dialogue, Dreamine.Secs.Abstractions.Model.SecsItem item, System.Threading.CancellationToken cancellationToken)`
+- `System.Threading.Tasks.Task<Dreamine.Secs.Abstractions.Model.SecsMessage> SendPrimaryAsync(Dreamine.Secs.Abstractions.Model.SecsMessage message, System.Threading.CancellationToken cancellationToken)`
+- `event System.EventHandler<Dreamine.Secs.Abstractions.Diagnostics.SecsDiagnosticEvent> DiagnosticReceived`
+- `event System.EventHandler<Dreamine.Secs.Abstractions.Hsms.SecsSessionStateChangedEventArgs> StateChanged`
+- `event System.EventHandler<Dreamine.Secs.Abstractions.Model.SecsMessage> MessageReceived`
+
+### `public interface Dreamine.Secs.Abstractions.Interfaces.ISecsMessageSessionProvider`
+
+- `Dreamine.Secs.Abstractions.Interfaces.ISecsMessageSession CreateSession(Dreamine.Secs.Abstractions.Options.SecsConnectionOptions options)`
+
+### `public interface Dreamine.Secs.Abstractions.Interfaces.ISecsPrimaryContext`
+
+- `Dreamine.Secs.Abstractions.Model.SecsConnectionIdentity ConnectionIdentity { get; }`
+- `Dreamine.Secs.Abstractions.Model.SecsMessage Primary { get; }`
+- `System.Boolean CanReply { get; }`
+- `System.Threading.Tasks.ValueTask ReplyAsync(Dreamine.Secs.Abstractions.Model.SecsItem item, System.Threading.CancellationToken cancellationToken)`
+
+### `public interface Dreamine.Secs.Abstractions.Interfaces.ISecsPrimaryDispatcher`
+
+- `System.IDisposable Register(Dreamine.Secs.Abstractions.Model.SecsDialogueDefinition dialogue, System.Func<Dreamine.Secs.Abstractions.Interfaces.ISecsPrimaryContext, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask> handler)`
+- `System.IDisposable RegisterFallback(System.Func<Dreamine.Secs.Abstractions.Interfaces.ISecsPrimaryContext, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask> handler)`
+- `System.Int64 DroppedPrimaryCount { get; }`
 
 ### `public sealed class Dreamine.Secs.Abstractions.Model.SecsAsciiItem`
 
@@ -184,6 +285,34 @@ Exported types: **52**
 - `Dreamine.Secs.Abstractions.Model.SecsItemFormat Format { get; }`
 - `SecsBooleanItem(System.Boolean[] values)`
 - `System.Int32 BodyLength { get; }`
+
+### `public sealed class Dreamine.Secs.Abstractions.Model.SecsConnectionIdentity`
+
+- `Dreamine.Secs.Abstractions.Enums.SecsConnectionMode Mode { get; }`
+- `Dreamine.Secs.Abstractions.Enums.SecsRole Role { get; }`
+- `Dreamine.Secs.Abstractions.Model.SecsConnectionIdentity <Clone>$()`
+- `Dreamine.Secs.Abstractions.Model.SecsSessionId SessionId { get; }`
+- `SecsConnectionIdentity(System.String providerKey, System.Guid sessionInstanceId, System.Int64 connectionEpoch, Dreamine.Secs.Abstractions.Model.SecsSessionId sessionId, Dreamine.Secs.Abstractions.Enums.SecsRole role, Dreamine.Secs.Abstractions.Enums.SecsConnectionMode mode)`
+- `System.Boolean Equals(Dreamine.Secs.Abstractions.Model.SecsConnectionIdentity other)`
+- `System.Boolean Equals(System.Object obj)`
+- `System.Guid SessionInstanceId { get; }`
+- `System.Int32 GetHashCode()`
+- `System.Int64 ConnectionEpoch { get; }`
+- `System.String ProviderKey { get; }`
+- `System.String ToString()`
+
+### `public sealed class Dreamine.Secs.Abstractions.Model.SecsDialogueDefinition`
+
+- `Dreamine.Secs.Abstractions.Model.SecsDialogueDefinition <Clone>$()`
+- `Dreamine.Secs.Abstractions.Model.SecsFunction PrimaryFunction { get; }`
+- `Dreamine.Secs.Abstractions.Model.SecsStream Stream { get; }`
+- `SecsDialogueDefinition(Dreamine.Secs.Abstractions.Model.SecsStream stream, Dreamine.Secs.Abstractions.Model.SecsFunction primaryFunction, System.Nullable<Dreamine.Secs.Abstractions.Model.SecsFunction> secondaryFunction)`
+- `System.Boolean Equals(Dreamine.Secs.Abstractions.Model.SecsDialogueDefinition other)`
+- `System.Boolean Equals(System.Object obj)`
+- `System.Boolean ReplyExpected { get; }`
+- `System.Int32 GetHashCode()`
+- `System.Nullable<Dreamine.Secs.Abstractions.Model.SecsFunction> SecondaryFunction { get; }`
+- `System.String ToString()`
 
 ### `public sealed class Dreamine.Secs.Abstractions.Model.SecsFloat32Item`
 
@@ -344,11 +473,20 @@ Exported types: **52**
 - `SecsConnectionOptions()`
 - `System.String ProviderKey { get; set; }`
 
+### `public sealed class Dreamine.Secs.Abstractions.Options.SecsPrimaryDispatcherOptions`
+
+- `SecsPrimaryDispatcherOptions()`
+- `System.Int32 MaximumConcurrency { get; set; }`
+- `System.Int32 QueueCapacity { get; set; }`
+- `System.Void Validate()`
+- `const System.Int32 MaximumHandlerConcurrency = 256`
+- `const System.Int32 MaximumQueueCapacity = 65536`
+
 ### `public static class Dreamine.Secs.Abstractions.Providers.SecsProviderKeys`
 
-- `const System.String Dreamine = dreamine`
-- `const System.String EnviaSoft = enviasoft`
-- `const System.String Linkgenesis = linkgenesis`
+- `const System.String Dreamine = "dreamine"`
+- `const System.String EnviaSoft = "enviasoft"`
+- `const System.String Linkgenesis = "linkgenesis"`
 
 ### `public sealed class Dreamine.Secs.Abstractions.Validation.HsmsStateException`
 
@@ -365,6 +503,8 @@ Exported types: **52**
 ### `public sealed class Dreamine.Secs.Abstractions.Validation.SecsDecodeException`
 
 - `SecsDecodeException(Dreamine.Secs.Abstractions.Validation.SecsValidationCode code, System.String message, System.Nullable<System.Int32> offset)`
+- `SecsDecodeException(Dreamine.Secs.Abstractions.Validation.SecsValidationCode code, System.String message, System.Nullable<System.Int32> offset, System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsHeader> hsmsHeader)`
+- `System.Nullable<Dreamine.Secs.Abstractions.Hsms.HsmsHeader> HsmsHeader { get; }`
 
 ### `public class Dreamine.Secs.Abstractions.Validation.SecsProtocolException`
 
@@ -393,8 +533,8 @@ Exported types: **52**
 ### `public sealed class Dreamine.Secs.Abstractions.Validation.SecsValidationResult`
 
 - `Dreamine.Secs.Abstractions.Validation.SecsValidationCode Code { get; }`
+- `Dreamine.Secs.Abstractions.Validation.SecsValidationResult Failure(Dreamine.Secs.Abstractions.Validation.SecsValidationCode code, System.String message, System.Nullable<System.Int32> offset)`
 - `Dreamine.Secs.Abstractions.Validation.SecsValidationResult Success { get; }`
 - `System.Boolean IsValid { get; }`
 - `System.Nullable<System.Int32> Offset { get; }`
 - `System.String Message { get; }`
-- `static Dreamine.Secs.Abstractions.Validation.SecsValidationResult Failure(Dreamine.Secs.Abstractions.Validation.SecsValidationCode code, System.String message, System.Nullable<System.Int32> offset)`

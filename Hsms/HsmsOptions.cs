@@ -1,4 +1,5 @@
 using Dreamine.Secs.Abstractions.Enums;
+using Dreamine.Secs.Abstractions.Options;
 
 namespace Dreamine.Secs.Abstractions.Hsms;
 
@@ -52,8 +53,18 @@ public sealed class HsmsSessionOptions
     public HsmsTimerOptions Timers { get; init; } = new();
     /// <summary>\if KO 최대 프레임 길이(헤더와 text 포함)입니다. \endif \if EN Gets the maximum frame length including header and text. \endif</summary>
     public int MaximumFrameLength { get; init; } = 16 * 1024 * 1024;
+    /// <summary>\if KO 10-byte HSMS header를 예약한 <see cref="MaximumFrameLength"/>에서 null 값을 유도하는 선택적 최대 SECS-II item encode 길이입니다. \endif \if EN Gets the optional maximum encoded SECS-II item length. A null value derives the limit from <see cref="MaximumFrameLength"/> after reserving the ten-byte HSMS header. \endif</summary>
+    public int? MaximumMessageLength { get; init; }
+    /// <summary>\if KO 허용되는 최대 SECS-II List 중첩 깊이를 가져옵니다. \endif \if EN Gets the maximum permitted SECS-II List nesting depth. \endif</summary>
+    public int MaximumNestingDepth { get; init; } = 64;
+    /// <summary>\if KO 하나의 SECS-II List item에 허용되는 최대 child 수를 가져옵니다. \endif \if EN Gets the maximum child count permitted in one SECS-II List item. \endif</summary>
+    public int MaximumListItemCount { get; init; } = 65_535;
     /// <summary>\if KO 연결 종료 후 능동 재연결 여부입니다. \endif \if EN Gets whether an active endpoint reconnects after disconnection. \endif</summary>
     public bool AutoReconnect { get; init; }
+    /// <summary>\if KO 완전한 frame의 선택적 wire observation 설정을 가져옵니다. Raw frame에 민감 payload가 포함될 수 있어 기본값은 비활성입니다. \endif \if EN Gets optional complete-frame wire observation settings. The feature is disabled by default because raw frames can contain sensitive payload. \endif</summary>
+    public HsmsWireObservationOptions? WireObservation { get; init; }
+    /// <summary>\if KO bounded inbound Primary dispatcher 설정을 가져옵니다. \endif \if EN Gets the bounded inbound-primary dispatcher settings. \endif</summary>
+    public SecsPrimaryDispatcherOptions PrimaryDispatcher { get; init; } = new();
 
     /// <summary>\if KO 설정을 검증합니다. \endif \if EN Validates the settings. \endif</summary>
     public void Validate()
@@ -63,8 +74,18 @@ public sealed class HsmsSessionOptions
         if (!Enum.IsDefined(Mode)) throw new ArgumentOutOfRangeException(nameof(Mode));
         if (!Enum.IsDefined(Role)) throw new ArgumentOutOfRangeException(nameof(Role));
         if (MaximumFrameLength < 10 || MaximumFrameLength > int.MaxValue - 4) throw new ArgumentOutOfRangeException(nameof(MaximumFrameLength));
+        var maximumTextLength = MaximumFrameLength - 10;
+        if (MaximumMessageLength is { } maximumMessageLength &&
+            (maximumMessageLength <= 0 || maximumMessageLength > maximumTextLength))
+            throw new ArgumentOutOfRangeException(nameof(MaximumMessageLength));
+        if (MaximumNestingDepth < 0) throw new ArgumentOutOfRangeException(nameof(MaximumNestingDepth));
+        if (MaximumListItemCount < 0 || MaximumListItemCount > 0x00ff_ffff)
+            throw new ArgumentOutOfRangeException(nameof(MaximumListItemCount));
         if (AutoReconnect && Mode != SecsConnectionMode.Active) throw new ArgumentException("Automatic T5 reconnect is available only in Active mode.", nameof(AutoReconnect));
         ArgumentNullException.ThrowIfNull(Timers);
         Timers.Validate();
+        WireObservation?.Validate();
+        ArgumentNullException.ThrowIfNull(PrimaryDispatcher);
+        PrimaryDispatcher.Validate();
     }
 }
