@@ -1,8 +1,19 @@
 # Dreamine.Secs.Abstractions
 
+[![CI](https://github.com/CodeMaru-Dreamine/Dreamine.Secs.Abstractions/actions/workflows/ci.yml/badge.svg)](https://github.com/CodeMaru-Dreamine/Dreamine.Secs.Abstractions/actions/workflows/ci.yml)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=CodeMaru-Dreamine_Dreamine.Secs.Abstractions&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=CodeMaru-Dreamine_Dreamine.Secs.Abstractions) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=CodeMaru-Dreamine_Dreamine.Secs.Abstractions&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=CodeMaru-Dreamine_Dreamine.Secs.Abstractions) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=CodeMaru-Dreamine_Dreamine.Secs.Abstractions&metric=coverage)](https://sonarcloud.io/summary/new_code?id=CodeMaru-Dreamine_Dreamine.Secs.Abstractions)
+
 Dreamine.Secs.Abstractions is the provider-independent domain and contract layer for Dreamine SECS-II and HSMS-SS communication.
 
 [➡️ 한국어 문서 보기](https://github.com/CodeMaru-Dreamine/Dreamine.Secs.Abstractions/blob/main/README_KO.md)
+
+## Install
+
+```powershell
+dotnet add package Dreamine.Secs.Abstractions
+```
+
+Choose this package when implementing a SECS provider, adapter, or application boundary without taking a dependency on the native TCP runtime. Applications that need a ready-to-run SECS-II/HSMS implementation should start with [`Dreamine.Secs.Com`](https://www.nuget.org/packages/Dreamine.Secs.Com).
 
 ## Implemented scope
 

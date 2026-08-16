@@ -1,8 +1,19 @@
 # Dreamine.Secs.Abstractions
 
+[![CI](https://github.com/CodeMaru-Dreamine/Dreamine.Secs.Abstractions/actions/workflows/ci.yml/badge.svg)](https://github.com/CodeMaru-Dreamine/Dreamine.Secs.Abstractions/actions/workflows/ci.yml)
+[![품질 게이트](https://sonarcloud.io/api/project_badges/measure?project=CodeMaru-Dreamine_Dreamine.Secs.Abstractions&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=CodeMaru-Dreamine_Dreamine.Secs.Abstractions) [![보안 등급](https://sonarcloud.io/api/project_badges/measure?project=CodeMaru-Dreamine_Dreamine.Secs.Abstractions&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=CodeMaru-Dreamine_Dreamine.Secs.Abstractions) [![테스트 커버리지](https://sonarcloud.io/api/project_badges/measure?project=CodeMaru-Dreamine_Dreamine.Secs.Abstractions&metric=coverage)](https://sonarcloud.io/summary/new_code?id=CodeMaru-Dreamine_Dreamine.Secs.Abstractions)
+
 Dreamine.Secs.Abstractions는 Dreamine SECS-II 및 HSMS-SS 통신의 공급자 독립 도메인/계약 계층입니다.
 
 [➡️ English Version](https://github.com/CodeMaru-Dreamine/Dreamine.Secs.Abstractions/blob/main/README.md)
+
+## 설치
+
+```powershell
+dotnet add package Dreamine.Secs.Abstractions
+```
+
+Native TCP Runtime에 의존하지 않고 SECS Provider, Adapter 또는 애플리케이션 경계를 구현할 때 선택합니다. 바로 실행 가능한 SECS-II/HSMS 구현이 필요하다면 [`Dreamine.Secs.Com`](https://www.nuget.org/packages/Dreamine.Secs.Com)부터 시작하십시오.
 
 ## 구현 범위
 
