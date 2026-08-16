@@ -51,7 +51,8 @@ jobs:
           $symbols = Join-Path $PWD 'artifacts/Dreamine.Secs.Abstractions.1.0.1.snupkg'
           if (!(Test-Path -LiteralPath $package) -or !(Test-Path -LiteralPath $symbols)) { throw 'Expected package artifacts were not produced.' }
           $smoke = Join-Path $env:RUNNER_TEMP 'consumer-smoke'
+          $restoreSources = "$(Join-Path $PWD 'artifacts');https://api.nuget.org/v3/index.json"
           dotnet new console --framework net8.0 --output $smoke --no-restore
           dotnet add $smoke package Dreamine.Secs.Abstractions --version 1.0.1 --no-restore
-          dotnet restore $smoke --source (Join-Path $PWD 'artifacts') --source https://api.nuget.org/v3/index.json
+          dotnet restore $smoke -p:RestoreSources="$restoreSources"
           dotnet build $smoke --no-restore
